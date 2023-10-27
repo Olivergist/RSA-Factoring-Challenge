@@ -1,0 +1,39 @@
+#!/usr/bin/python3
+import sys
+import time
+
+def factorize(n):
+    factors = []
+    i = 2
+    while i * i <= n:
+        if n % i:
+            i += 1
+        else:
+            n //= i
+            factors.append(i)
+    if n > 1:
+        factors.append(n)
+    return factors
+
+def main(file_name):
+    try:
+        with open(file_name, "r") as file:
+            for line in file:
+                n = int(line.strip())
+                factors = factorize(n)
+                if len(factors) == 2:
+                    print(f"{n}={factors[0]}*{factors[1]}")
+    except FileNotFoundError:
+        print(f"File '{file_name}' not found.")
+    except ValueError:
+        print("Invalid input in the file. Please ensure all lines contain valid natural numbers.")
+
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print("Usage: factors <file>")
+        sys.exit(1)
+    file_name = sys.argv[1]
+    start_time = time.time()
+    main(file_name)
+    end_time = time.time()
+    print(f"Execution time: {end_time - start_time} seconds")
